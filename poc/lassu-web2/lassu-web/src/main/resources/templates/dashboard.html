@@ -5,6 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" xmlns:th="http://www.thymeleaf.org"> <!--<![endif]-->
 <head th:include="fragments/header"/>
 <body>
+	<h5  th:if="${securitymsg}" th:text="${securitymsg}" th:class="error"></h5>
 	<div class="w3-center">
 		<a th:href="@{/logout}" class="w3-btn w3-green">Logout</a>
 	</div>

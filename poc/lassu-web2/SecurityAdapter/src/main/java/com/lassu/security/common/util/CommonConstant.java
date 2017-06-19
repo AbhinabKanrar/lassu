@@ -14,8 +14,14 @@ public interface CommonConstant {
 	int DB_RETRY_DELAY = 2000;
 	
 	String COMPONENT_POSTAUTHCHK_PROCESSOR ="postauthchkconsumer";
+
+	
 	String AUTH_TOKEN = "2ebfc0e6-7e32-4c95-81a7-f9b0980f7d04";
 	String URL_MONITOR = "/admin/security/target/internal-communication/" + AUTH_TOKEN;
 	String URL_MONITOR_RESP = "/admin/security/src/internal-communication/" + AUTH_TOKEN;
-
+	
+//	String AUTH_TOKEN = System.getProperty("AUTH_TOKEN");
+	String SECURITY_ADAPTER_HOST = System.getProperty("partner.site");
+	String SECURITY_ADAPTER_URL = SECURITY_ADAPTER_HOST + "/admin/security/adapter/internal-communication/" + AUTH_TOKEN; 
+	
 }

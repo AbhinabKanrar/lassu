@@ -29,8 +29,7 @@ public class MonitoringRouter {
 	@Autowired
 	private AuthCheckService authCheckService;
 
-	@PostMapping(value = "/target/internal-communication/"
-			+ CommonConstant.AUTH_TOKEN, headers = "Accept=application/xml", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+	@PostMapping(value = "/adapter/internal-communication/"+ CommonConstant.AUTH_TOKEN, headers = "Accept=application/xml", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 	private @ResponseBody ResponseEntity<RespAuth> check(final @RequestBody UsernamePasswordToken usernamePasswordToken)
 			throws Exception {
 		if (!valid(usernamePasswordToken)) {

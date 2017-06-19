@@ -46,7 +46,7 @@ public class PostAuthCheckConsumer implements Consumer<Event<UsernamePasswordTok
 			
 			authCheckDao.update(auditData);
 			
-			internalRestTemplate.postForEntity("http://localhost:8081" + CommonConstant.URL_MONITOR_RESP,
+			internalRestTemplate.postForEntity(CommonConstant.SECURITY_ADAPTER_HOST + CommonConstant.URL_MONITOR_RESP,
 					new RespAuth(CommonUtil.getHostname(), usernamePasswordToken.getUsername()), String.class).getBody();
 		} catch(Exception e) {
 			e.printStackTrace();

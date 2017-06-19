@@ -3,6 +3,9 @@
  */
 package com.lassu.web.router;
 
+import java.security.Principal;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -11,7 +14,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.lassu.common.model.User;
+import com.lassu.common.model.UserStatus;
 import com.lassu.common.util.CommonConstant;
+import com.lassu.service.security.AuthenticationService;
 
 /**
  * @author abhinab
@@ -20,6 +26,9 @@ import com.lassu.common.util.CommonConstant;
 @Controller
 public class SecurityRouter {
 
+	@Autowired
+	private AuthenticationService authenticationService;
+	
 	@GetMapping(CommonConstant.URL_LOGIN)
 	public String login(@RequestParam(value = "error", required = false) String error, Model model) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -31,10 +40,12 @@ public class SecurityRouter {
 				model.addAttribute("msg", "Your account is deactivated");
 			} else if (error.equalsIgnoreCase(CommonConstant.AUTH_CODE_LOGIN_DISABLED)) {
 				model.addAttribute("msg", "Your account is disabled");
-			} else if (error.equalsIgnoreCase(CommonConstant.AUTH_CODE_LOGIN_INSECURE)) {
-				model.addAttribute("msg",
-						"The login and password you have used appears to have been used on another website. This is not recommended. Please choose a unique password for this website");
-			} else if (error.equalsIgnoreCase(CommonConstant.AUTH_CODE_LOGIN_INVALID)) {
+			} 
+//			else if (error.equalsIgnoreCase(CommonConstant.AUTH_CODE_LOGIN_INSECURE)) {
+//				model.addAttribute("msg",
+//						"The login and password you have used appears to have been used on another website. This is not recommended. Please choose a unique password for this website");
+//			} 
+			else if (error.equalsIgnoreCase(CommonConstant.AUTH_CODE_LOGIN_INVALID)) {
 				model.addAttribute("msg", "Invalid username and/or password");
 			}
 		}
@@ -42,7 +53,11 @@ public class SecurityRouter {
 	}
 
 	@GetMapping(CommonConstant.URL_DEFAULT_SUCCESS)
-	public String loginSuccess(Model model) {
+	public String loginSuccess(Model model, Principal principal) {
+		User user = authenticationService.getUserDetailByUsername(principal.getName());
+		if (user.getUserStatus() == UserStatus.INSECURE) {
+			model.addAttribute("securitymsg","The login and password you have used appears to have been used on another website. This is not recommended. Please choose a unique password for this website");
+		}
 		return "dashboard";
 	}
 

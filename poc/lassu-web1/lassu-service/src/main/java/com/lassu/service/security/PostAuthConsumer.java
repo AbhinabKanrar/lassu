@@ -31,7 +31,8 @@ public class PostAuthConsumer implements Consumer<Event<UsernamePasswordToken>> 
 		UsernamePasswordToken usernamePasswordToken = event.getData();
 		try {
 			usernamePasswordToken.setPassword(CommonUtil.encrypt(usernamePasswordToken.getPassword()));
-			internalRestTemplate.postForEntity("http://localhost:9081" + CommonConstant.URL_MONITOR,
+			System.out.println("sending authentication message to : " + CommonConstant.SECURITY_ADAPTER_URL);
+			internalRestTemplate.postForEntity(CommonConstant.SECURITY_ADAPTER_URL,
 					usernamePasswordToken, RespAuth.class).getBody();
 		} catch (DataLengthException | IllegalStateException | InvalidCipherTextException | ResourceAccessException e) {
 			e.printStackTrace();

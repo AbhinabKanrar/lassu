@@ -1,0 +1,24 @@
+polaris:
+ssh -i lassu_web.pem ubuntu@ec2-34-207-67-37.compute-1.amazonaws.com
+
+ssh -i lassu_web.pem ubuntu@ec2-54-86-128-194.compute-1.amazonaws.com
+
+54.86.128.194
+
+update lassu.user_detail2 set user_status='ACTIVE';
+
+redamber:
+ssh -i lassu_web.pem ubuntu@ec2-54-234-165-33.compute-1.amazonaws.com
+
+
+54.234.165.33
+
+
+ssh -i lassu_web.pem ubuntu@ec2-54-158-66-5.compute-1.amazonaws.com
+
+54.158.66.5
+
+update lassu.user_detail1 set user_status='ACTIVE';
+
+
+sudo -u postgres psql postgres

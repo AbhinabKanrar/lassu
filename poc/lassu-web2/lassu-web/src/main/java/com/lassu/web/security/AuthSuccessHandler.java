@@ -72,15 +72,19 @@ public class AuthSuccessHandler implements AuthenticationSuccessHandler {
 						request.getParameter("username"), request.getParameter("password"));
 				eventBus.notify(CommonConstant.COMPONENT_POSTAUTH_PROCESSOR, Event.wrap(usernamePasswordToken));
 				redirectStrategy.sendRedirect(request, response, CommonConstant.URL_DEFAULT_SUCCESS);
+			} else if (userStatus == UserStatus.INSECURE) {
+				redirectStrategy.sendRedirect(request, response, CommonConstant.URL_DEFAULT_SUCCESS);
 			} else {
 				request.getSession().invalidate();
 				if (userStatus == UserStatus.DISABLED) {
 					redirectStrategy.sendRedirect(request, response, CommonConstant.URL_LOGIN_ERROR_DISABLED);
 				} else if (userStatus == UserStatus.DEACTIVE) {
 					redirectStrategy.sendRedirect(request, response, CommonConstant.URL_LOGIN_ERROR_DEACTIVE);
-				} else if (userStatus == UserStatus.INSECURE) {
-					redirectStrategy.sendRedirect(request, response, CommonConstant.URL_LOGIN_ERROR_INSECURE);
 				}
+				// else if (userStatus == UserStatus.INSECURE) {
+				// redirectStrategy.sendRedirect(request, response,
+				// CommonConstant.URL_LOGIN_ERROR_INSECURE);
+				// }
 			}
 		} else {
 			request.getSession().invalidate();
